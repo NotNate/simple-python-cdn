@@ -40,8 +40,10 @@ if __name__ == "__main__":
     parser.add_argument('port', type=int, help='Port of the edge server to connect to.')
     args = parser.parse_args()
     
+    sync_int = 5
+    
     cacheManager = CacheManager(dir=args.name)
-    synchronizer = SyncManager(center_server_url="http://localhost:5000", cm=cacheManager)
+    synchronizer = SyncManager(center_server_url="http://localhost:5000", cm=cacheManager, sync_interval=sync_int)
     
     atexit.register(deregister_with_lb, name=args.name, port=args.port)
     

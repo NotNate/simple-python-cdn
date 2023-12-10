@@ -4,6 +4,7 @@ import requests
 from cache_manager import CacheManager
 from sync_manager import SyncManager
 import atexit
+import requests
 
 app = Flask(__name__)
 
@@ -17,6 +18,8 @@ def get_content_from_central_server(filename, cache_manager, central_server_url)
 @app.route('/content/<filename>', methods=['GET'])
 def content(filename):
     content = cacheManager.retrieve_content(filename)
+    if content is not None:
+        requests.post(f"http://localhost:5000/download_increment/{filename}")
     if content is None:
         content = get_content_from_central_server(filename, cacheManager, "http://localhost:5000")
     if content is not None:

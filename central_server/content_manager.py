@@ -8,6 +8,13 @@ class ContentManager:
         Sets up the directory where content will be stored and managed.
         """
         self.content_directory = 'static/'
+        
+    def retrieve_content(self, filename):
+        file_path = os.path.join(self.content_directory, filename)
+        if os.path.exists(file_path):
+            with open(file_path, 'rb') as file:
+                return file.read()
+        return None
 
     def upload_content(self, file):
         """

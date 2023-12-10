@@ -1,8 +1,16 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from content_manager import ContentManager
 
 app = Flask(__name__)
 content_manager = ContentManager()
+
+@app.route('/content/<filename>', methods=['GET'])
+def content(filename):
+    content = content_manager.retrieve_content(filename)
+    if content is not None: 
+        return send_file(content, as_attachment=filename), 200
+    else:
+        jsonify({"message": "Content not found."}), 404
 
 @app.route('/upload', methods=['POST'])
 def upload():

@@ -8,7 +8,7 @@ content_manager = ContentManager()
 def content(filename):
     content = content_manager.retrieve_content(filename)
     if content is not None: 
-        return send_file(content, as_attachment=filename), 200
+        return send_file(f"static/{filename}", as_attachment=True, download_name=filename), 200
     else:
         jsonify({"message": "Content not found."}), 404
 

@@ -5,7 +5,7 @@ class LoadBalancerManager:
         
     def register_edge_server(self, server_info):
         if server_info not in self.edge_servers:
-            self.edge_servers.appen(server_info)
+            self.edge_servers.append(server_info)
             print(f"Registered edge server: {server_info}")
         
     def deregister_edge_server(self, name):

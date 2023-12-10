@@ -2,9 +2,9 @@ import requests
 from cache_manager import CacheManager
 
 class SyncManager:
-    def __init__(self, center_server_url):
+    def __init__(self, center_server_url, cm):
         self.central_server_url = center_server_url
-        self.cache_manager = CacheManager()
+        self.cache_manager = cm
     
     def synchronize(self):
         response = requests.get(f"{self.central_server_url}/list")

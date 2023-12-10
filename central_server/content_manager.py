@@ -12,7 +12,7 @@ class ContentManager:
     def retrieve_content(self, filename):
         file_path = os.path.join(self.content_directory, filename)
         if os.path.exists(file_path):
-            with open(file_path, 'rb') as file:
+            with open(file_path, 'r') as file:
                 return file.read()
         return None
 

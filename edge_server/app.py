@@ -7,10 +7,18 @@ import atexit
 
 app = Flask(__name__)
 
+def get_content_from_central_server(filename, cache_manager, central_server_url):
+    response = requests.get(f"{central_server_url}/content/{filename}")
+    if response.status_code == 200:
+        cache_manager.cache_content(response.content, filename)
+        return response.content
+    return None
 
 @app.route('/content/<filename>', methods=['GET'])
 def content(filename):
     content = cacheManager.retrieve_content(filename)
+    if content is None:
+        content = get_content_from_central_server(filename, cacheManager, "http://localhost:5000")
     if content is not None:
         return send_file(f"{cacheManager.cache_directory}/{filename}", as_attachment=True, download_name=filename), 200
     return jsonify({"message": "Content not found"}), 404

@@ -3,6 +3,7 @@ import argparse
 import requests
 from cache_manager import CacheManager
 from sync_manager import SyncManager
+import atexit
 
 app = Flask(__name__)
 
@@ -23,6 +24,14 @@ def register_with_lb(name, port):
     }
     requests.post(load_balancer_url, json=edge_server_info)
 
+def deregister_with_lb(name, port):
+    load_balancer_url = "http://localhost:6000/deregister"
+    edge_server_info = {
+        'name': name,
+        'port': port,
+        'ip': 'localhost'
+    }
+    requests.post(load_balancer_url, json=edge_server_info)
 
 
 if __name__ == "__main__":
@@ -33,6 +42,8 @@ if __name__ == "__main__":
     
     cacheManager = CacheManager(dir=args.name)
     synchronizer = SyncManager(center_server_url="http://localhost:5000", cm=cacheManager)
+    
+    atexit.register(deregister_with_lb, name=args.name, port=args.port)
     
     synchronizer.synchronize()
     register_with_lb(args.name, args.port)

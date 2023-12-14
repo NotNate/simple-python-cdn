@@ -4,7 +4,7 @@ import { randomString } from 'https://jslib.k6.io/k6-utils/1.0.0/index.js';
 
 export let options = {
     vus: 20,       // 20 virtual users
-    duration: '30s' // Run for 30 seconds
+    duration: '1s' // Run for 30 seconds
 };
 
 export default function () {

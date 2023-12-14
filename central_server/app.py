@@ -54,7 +54,7 @@ def increment_download(filename):
     Response: Confirmation message.
     '''
     content_manager.increment_download(filename)
-    return jsonify({"message:" f"Incremented download for file: {filename}"}), 200
+    return jsonify({"message": f"Incremented download for file: {filename}"}), 200
 
 @app.route('/upload', methods=['POST'])
 def upload():
